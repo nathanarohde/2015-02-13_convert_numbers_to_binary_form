@@ -1,30 +1,37 @@
-var triangleIdentifier = function(side_a, side_b, side_c) {
+var binary = function(input_string) {
+  var input_number = parseInt(input_string);
+  var two_power = 0
+  var binary_switch_array = [ ]
+  var binary_output = 0
 
-  var triangle_identifier_result = ' '
-
-  if (((side_a+side_b)<side_c) || ((side_b+side_c)<side_a) || ((side_c+side_a)<side_b)) {
-    triangle_identifier_result = 'These sides can not make a triangle.';
-  } else if ((side_a === side_b) && (side_b === side_c)){
-    triangle_identifier_result = 'This triangle is equilateral.';
-  } else if ((side_a === side_b) || (side_b === side_c) || (side_c === side_a)){
-    triangle_identifier_result = 'This triangle is isosceles.';
+  if (input_number === 0) {
+    return binary_output;
   } else {
-    triangle_identifier_result = 'This triangle is scalene.';
+    while ((Math.pow(2, two_power)) < input_number ) {
+      two_power +=1
+    }
+    for (two_power; two_power >= 0; two_power--) {
+      if (input_number >= (Math.pow(2, two_power))) {
+        binary_switch_array.push(1);
+        input_number -= (Math.pow(2, two_power));
+      } else {
+        binary_switch_array.push(0);
+      }
+    }
+    binary_output = parseInt(binary_switch_array.join(''));
   }
-  return triangle_identifier_result;
+  return binary_output;
 };
 
 $(document).ready(function(event) {
-  $('form#triangle_side_input_form').submit(function(event) {
-    var side_a_input = parseFloat($('input#side_a_input').val());
-    var side_b_input = parseFloat($('input#side_b_input').val());
-    var side_c_input = parseFloat($('input#side_c_input').val());
+  $('form#number_input_form').submit(function(event) {
+    var number_input = parseInt($('input#number_input').val());
 
-    if ((!(/^\d*\.?\d*$/.test(side_a_input))) || (!(/^\d*\.?\d*$/.test(side_b_input))) || (!(/^\d*\.?\d*$/.test(side_c_input)))) {
+    if ((!(/^\d*\.?\d*$/.test(number_input)))) {
       $('.output').text('Invalid Entry: Non numeric characters');
     } else {
-      var triangle_identifier_output = triangleIdentifier(side_a_input,side_b_input,side_c_input);
-      $('.output').text(triangle_identifier_output);
+      var binary_output_result = binary(number_input);
+      $('.output').text(binary_output_result);
     }
 
     $('#result').show();
