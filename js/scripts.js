@@ -13,9 +13,23 @@ var triangleIdentifier = function(side_a, side_b, side_c) {
   }
 
   return triangle_identifier_result;
-
 };
 
 $(document).ready(function(event) {
+  $('form#triangle_side_input_form').submit(function(event) {
+    var side_a_input = parseInt($('input#side_a_input').val());
+    var side_b_input = parseInt($('input#side_b_input').val());
+    var side_c_input = parseInt($('input#side_c_input').val());
 
+    if ((!(/[0-9]/.test(side_a_input))) || (!(/[0-9]/.test(side_b_input))) || (!(/[0-9]/.test(side_c_input)))) {
+      $('.output').text('Invalid Entry: Non numeric characters');
+    } else {
+      var triangle_identifier_output = triangleIdentifier(side_a_input,side_b_input,side_c_input);
+      $('.output').text(triangle_identifier_output);
+    }
+
+    $('#result').show();
+    event.preventDefault();
+
+  });
 });
